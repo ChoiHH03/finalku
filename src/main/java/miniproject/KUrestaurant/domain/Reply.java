@@ -25,8 +25,10 @@ public class Reply {
     private Restaurant restaurant;
 
     //==생성 메서드==//
-    public static Reply createReply(Member member, Restaurant restaurant) {
+    public static Reply createReply(Member member, Restaurant restaurant, int star, String comment) {
         Reply reply = new Reply();
+        reply.setStar(star);
+        reply.setComment(comment);
 
         reply.setMember(member);
         member.getReplies().add(reply);
@@ -44,5 +46,6 @@ public class Reply {
 
         member.getReplies().remove(reply);
         restaurant.getReplies().remove(reply);
+        restaurant.removeStar(reply);
     }
 }

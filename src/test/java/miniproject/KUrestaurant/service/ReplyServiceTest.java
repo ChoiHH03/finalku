@@ -25,15 +25,14 @@ class ReplyServiceTest {
         Member member = new Member();
         Restaurant restaurant = new Restaurant();
 
-        Reply reply = Reply.createReply(member, restaurant);
-        reply.setStar(4);
-        reply.setComment("맛있어요");
+        Reply reply = Reply.createReply(member, restaurant,4,"맛있어요");
 
         Long id = replyService.saveReply(reply);
 
         assertEquals(member.getReplies().size(),1);
         assertEquals(restaurant.getReplies().size(),1);
         assertEquals(replyService.findOne(id),reply);
+        assertEquals(restaurant.getEval_num(),1);
     }
 
     @Test
@@ -42,9 +41,8 @@ class ReplyServiceTest {
         Member member = new Member();
         Restaurant restaurant = new Restaurant();
 
-        Reply reply = Reply.createReply(member, restaurant);
-        reply.setStar(6);
-        reply.setComment("별점오류");
+        Reply reply = Reply.createReply(member, restaurant,6, "별점오류");
+
 
         assertThrows(IllegalArgumentException.class, () ->
                 replyService.saveReply(reply));
@@ -55,15 +53,14 @@ class ReplyServiceTest {
         Member member = new Member();
         Restaurant restaurant = new Restaurant();
 
-        Reply reply = Reply.createReply(member, restaurant);
-        reply.setStar(4);
-        reply.setComment("맛있어요");
+        Reply reply = Reply.createReply(member, restaurant, 4, "맛있어요");
 
         replyService.saveReply(reply);
         replyService.removeReply(reply);
 
         assertEquals(replyService.findReplies().size(),0);
         assertEquals(member.getReplies().size(), 0);
+        assertEquals(restaurant.getEval_num(), 0);
 
     }
 }
